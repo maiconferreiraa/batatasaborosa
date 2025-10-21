@@ -1,58 +1,127 @@
 // Aguarda o documento HTML carregar completamente
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- INICIALIZAÇÃO DO CARROSSEL SWIPER ---
-    const swiper = new Swiper('.swiper', {
-        // Ativa o loop para as ofertas girarem infinitamente
-        loop: true,
+    // --- LÓGICA DO MODAL DE PROMOÇÃO (JÁ EXISTENTE) ---
+    const swiperElement = document.querySelector('.swiper');
+    if (swiperElement) {
+        const swiper = new Swiper(swiperElement, {
+            loop: true,
+            autoHeight: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    }
 
-        // ESSA É A CORREÇÃO: Faz a altura do carrossel se adaptar a cada slide
-        autoHeight: true,
-
-        // Adiciona as setas de navegação
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        // Adiciona a paginação (bolinhas)
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-    });
-
-    // --- LÓGICA PARA ABRIR E FECHAR O MODAL ---
-    const modal = document.getElementById('promo-modal');
+    const promoModal = document.getElementById('promo-modal');
     const fab = document.getElementById('promo-fab');
-    const closeButton = document.querySelector('.close-button');
+    const promoCloseButton = document.querySelector('.promo-close');
 
-    // Função para mostrar o modal
-    function showModal() {
-        modal.style.display = 'flex';
+    if (fab) { fab.addEventListener('click', () => { promoModal.style.display = 'flex'; }); }
+    if (promoCloseButton) { promoCloseButton.addEventListener('click', () => { promoModal.style.display = 'none'; }); }
+
+    // --- NOVA LÓGICA DO MODAL DE PEDIDO ---
+    const orderModal = document.getElementById('order-modal');
+    const orderButtons = document.querySelectorAll('.open-order-modal');
+    const orderCloseButton = document.querySelector('.order-close');
+    
+    // Elementos dentro do modal de pedido
+    const modalItemName = document.getElementById('modal-item-name');
+    const modalItemPrice = document.getElementById('modal-item-price');
+    const extrasCheckboxes = document.querySelectorAll('.extra-checkbox');
+    const modalTotalPrice = document.getElementById('modal-total-price');
+    const modalWhatsAppLink = document.getElementById('modal-whatsapp-link');
+
+    let currentItemPrice = 0;
+    let currentItemName = '';
+    const whatsappNumber = '5531975349310'; // Seu número de WhatsApp
+
+    // Função para formatar número como moeda (BRL)
+    function formatCurrency(value) {
+        return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
 
-    // Função para esconder o modal
-    function hideModal() {
-        modal.style.display = 'none';
-    }
+    // Função para CALCULAR O TOTAL e ATUALIZAR O LINK
+    function updateOrderTotal() {
+        let total = currentItemPrice;
+        let extrasList = []; // Lista de nomes dos acréscimos
 
-    // Quando o usuário clicar no botão flutuante, mostra o modal
-    fab.onclick = showModal;
+        extrasCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                total += parseFloat(checkbox.dataset.price);
+                extrasList.push(checkbox.dataset.name);
+            }
+        });
 
-    // Quando o usuário clicar no 'X', esconde o modal
-    closeButton.onclick = hideModal;
+        // Atualiza o texto do total na tela
+        modalTotalPrice.textContent = formatCurrency(total);
 
-    // Quando o usuário clicar fora da janela (no fundo escuro), esconde o modal
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            hideModal();
+        // Constrói a mensagem do WhatsApp
+        let message = `Olá! Gostaria de pedir:\n\n`;
+        message += `*Produto:* ${currentItemName}\n`;
+        
+        if (extrasList.length > 0) {
+            message += `*Acréscimos:*\n- ${extrasList.join('\n- ')}\n`;
         }
-    };
+        
+        message += `\n*Total:* ${formatCurrency(total)}`;
 
-    // Quando o usuário apertar a tecla 'Escape', esconde o modal
-    document.addEventListener('keydown', function(event) {
+        // Atualiza o link do botão final
+        modalWhatsAppLink.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    }
+
+    // Função para ABRIR O MODAL DE PEDIDO
+    function openOrderModal(event) {
+        const button = event.currentTarget;
+        currentItemName = button.dataset.name;
+        currentItemPrice = parseFloat(button.dataset.price);
+
+        // Reseta o modal
+        extrasCheckboxes.forEach(checkbox => { checkbox.checked = false; }); // Desmarca todos
+
+        // Preenche com os dados do item clicado
+        modalItemName.textContent = currentItemName;
+        modalItemPrice.textContent = formatCurrency(currentItemPrice);
+
+        // Calcula o total inicial (só o item) e mostra o modal
+        updateOrderTotal();
+        orderModal.style.display = 'flex';
+    }
+
+    // Adiciona os eventos
+    if (orderModal) {
+        // Adiciona evento de clique para todos os botões "Montar Pedido"
+        orderButtons.forEach(button => {
+            button.addEventListener('click', openOrderModal);
+        });
+
+        // Adiciona evento de clique para fechar o modal de pedido
+        if (orderCloseButton) {
+            orderCloseButton.addEventListener('click', () => { orderModal.style.display = 'none'; });
+        }
+
+        // Adiciona evento de "mudança" para todos os checkboxes
+        extrasCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateOrderTotal);
+        });
+    }
+
+    // --- LÓGICA GLOBAL PARA FECHAR MODAIS ---
+    window.addEventListener('click', (event) => {
+        if (event.target == promoModal) { promoModal.style.display = 'none'; }
+        if (event.target == orderModal) { orderModal.style.display = 'none'; }
+    });
+
+    document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            hideModal();
+            promoModal.style.display = 'none';
+            orderModal.style.display = 'none';
         }
     });
+
 });

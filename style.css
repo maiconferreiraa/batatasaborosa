@@ -1,0 +1,354 @@
+/* Configurações Globais e Reset */
+:root {
+    --primary-color: #FF4500; /* Laranja avermelhado, cor de destaque */
+    --secondary-color: #4A2E2A; /* Marrom escuro para textos */
+    --background-color: #FDF8F0; /* Fundo levemente amarelado/bege */
+    --card-background: #FFFFFF; /* Fundo dos cards */
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilo do Cabeçalho (Header) */
+.header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1200x400.png?text=Nossas+Batatas');
+    background-size: cover;
+    background-position: center;
+    position: relative; 
+}
+
+.header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.header p {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+/* Ícone do Instagram */
+.social-media {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+}
+
+.social-media a {
+    text-decoration: none;
+    font-size: 2.2rem;
+    transition: opacity 0.3s ease;
+}
+
+.social-media a:hover {
+    opacity: 0.8;
+}
+
+.social-media .fa-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Título da Seção do Cardápio */
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 40px 0;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* Grid e Itens do Cardápio */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.menu-item {
+    background-color: var(--card-background);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.menu-item-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.menu-item-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.menu-item-description {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.menu-item-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Botão de Compra */
+.btn-buy {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-buy i {
+    margin-right: 8px;
+}
+
+.btn-buy:hover {
+    background-color: #e63e00;
+    transform: scale(1.05);
+}
+
+/* Rodapé */
+.footer {
+    background-color: var(--secondary-color);
+    color: #f0f0f0;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+
+/* --- ESTILO PARA BOTÃO FLUTUANTE E MODAL COM CARROSSEL --- */
+#promo-fab {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: auto; 
+    padding: 12px 20px; 
+    height: auto;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    z-index: 1000;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#promo-fab:hover {
+    transform: scale(1.05);
+    background-color: #e63e00;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease-out forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out forwards;
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+.swiper-slide {
+    background-color: #fefefe;
+}
+
+.modal-image, .modal-text {
+    background-color: #fefefe;
+}
+
+.modal-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-text {
+    padding: 20px 30px 40px 30px;
+}
+
+.modal-promo-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.close-button {
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+}
+.close-button:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+.price-container {
+    margin-top: auto; 
+    margin-bottom: 20px;
+}
+.old-price {
+    display: block;
+    text-decoration: line-through;
+    color: #888;
+    font-size: 1rem;
+}
+
+/* Estilização do Swiper (Setas e Bolinhas) */
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--primary-color) !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: var(--primary-color) !important;
+}
+
+/* Animações e ajustes de visibilidade */
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+@keyframes slideIn { from {transform: scale(0.9) translateY(20px); opacity: 0;} to {transform: scale(1) translateY(0); opacity: 1;} }
+.modal.show { display: flex; }
+
+
+/* --- AJUSTES PARA TELAS MENORES (CELULARES) --- */
+/* --- TUDO ORGANIZADO EM UM SÓ LUGAR --- */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.2rem;
+    }
+    .header p {
+        font-size: 1rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .social-media {
+        top: 20px;
+        right: 20px;
+    }
+
+    #promo-fab {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+
+    .modal-text {
+        padding: 15px 20px 20px 20px;
+    }
+
+    .modal-promo-title {
+        font-size: 1.5rem;
+    }
+}

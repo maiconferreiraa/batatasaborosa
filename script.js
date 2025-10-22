@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const promoModal = document.getElementById('promo-modal');
     const fab = document.getElementById('promo-fab');
     const promoCloseButton = document.querySelector('#promo-modal .promo-close'); 
-    if (fab && promoModal) { fab.addEventListener('click', () => { promoModal.style.display = 'flex'; }); } // Adicionado if(promoModal)
-    if (promoCloseButton && promoModal) { promoCloseButton.addEventListener('click', () => { promoModal.style.display = 'none'; }); } // Adicionado if(promoModal)
+    if (fab && promoModal) { fab.addEventListener('click', () => { promoModal.style.display = 'flex'; }); } 
+    if (promoCloseButton && promoModal) { promoCloseButton.addEventListener('click', () => { promoModal.style.display = 'none'; }); } 
 
     // --- LÓGICA DO MODAL DE PEDIDO ---
     const orderModal = document.getElementById('order-modal');
@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalItemPrice = document.getElementById('modal-item-price');
     const modalTotalPrice = document.getElementById('modal-total-price'); 
     const modalWhatsAppLink = document.getElementById('modal-whatsapp-link');
+    
+    // CAMPOS DE ENDEREÇO + NOME
+    const addressName = document.getElementById('address-name'); // << INCLUÍDO
     const addressStreet = document.getElementById('address-street');
     const addressNumber = document.getElementById('address-number');
     const addressNeighborhood = document.getElementById('address-neighborhood');
@@ -35,17 +38,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentItemName = '';
     let currentSubtotal = 0; 
     
-    function formatCurrency(value) {
-        // Adiciona validação para evitar erros com valores não numéricos
-        if (typeof value !== 'number' || isNaN(value)) {
-            return 'R$ 0,00'; 
-        }
-        return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    function formatCurrency(value) { 
+        if (typeof value !== 'number' || isNaN(value)) { return 'R$ 0,00'; }
+        return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }); 
     }
 
-    // Função que atualiza o subtotal E o link do WhatsApp
+    // Função que atualiza o subtotal E o link do WhatsApp (agora pega NOME e endereço)
     function updateOrderDetails() {
-        // Garante que currentItemPrice seja um número
         let subtotal = !isNaN(currentItemPrice) ? currentItemPrice : 0;
         let extrasList = []; 
 
@@ -64,12 +63,22 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSubtotal = subtotal; 
         if(modalTotalPrice) modalTotalPrice.textContent = formatCurrency(currentSubtotal); 
 
-        // --- PREPARA A MENSAGEM DO WHATSAPP ---
+        // --- PREPARA A MENSAGEM DO WHATSAPP COM NOME E ENDEREÇO ---
         let message = `Olá! 👋 Gostaria de fazer o seguinte pedido:\n\n`;
+        
+        // --- Adiciona Nome do Cliente ---
+        const customerName = addressName ? addressName.value.trim() : '';
+        if (customerName) {
+             message += `👤 *Cliente:* ${customerName}\n\n`;
+        } else {
+             message += `👤 *Cliente:* (Nome não informado)\n\n`; // Ou pode remover esta linha se preferir
+        }
+        
         message += `📝 *Produto:*\n`;
         message += `🥔 _${currentItemName}_\n\n`; 
         if (extrasList.length > 0) { message += `➕ *Acréscimos:*\n${extrasList.join('\n')}\n\n`; }
         message += `💰 *Subtotal (sem entrega):*\n*${formatCurrency(currentSubtotal)}*\n\n`; 
+
         const street = addressStreet ? addressStreet.value.trim() : '';
         const number = addressNumber ? addressNumber.value.trim() : '';
         const neighborhood = addressNeighborhood ? addressNeighborhood.value.trim() : '';
@@ -84,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (city) message += `- Cidade: ${city}\n`;
         if (reference) message += `- Ref: ${reference}\n`;
         message += `\n`; 
+
         message += `🚚 *Importante:*\n_Por favor, aguarde o cálculo e a confirmação do valor final (*produtos + taxa de entrega*) antes de realizar o pagamento._\n\n`; 
         message += `Obrigado(a)! 😊`;
         
@@ -96,12 +106,11 @@ document.addEventListener('DOMContentLoaded', function() {
         currentItemPrice = parseFloat(button.dataset.price);
         if (isNaN(currentItemPrice)) { currentItemPrice = 0; }
 
-        extraListItems.forEach(item => {
-            const quantityInput = item.querySelector('.quantity-input-new'); 
-            if (quantityInput) quantityInput.value = 0;
-        });
+        extraListItems.forEach(item => { const quantityInput = item.querySelector('.quantity-input-new'); if (quantityInput) quantityInput.value = 0; });
         
-        if (addressStreet) addressStreet.value = ''; /* ... (outros campos) ... */
+        // Limpa campos de endereço E NOME
+        if (addressName) addressName.value = ''; // << INCLUÍDO
+        if (addressStreet) addressStreet.value = ''; 
         if (addressNumber) addressNumber.value = '';
         if (addressNeighborhood) addressNeighborhood.value = '';
         if (addressCep) addressCep.value = '';
@@ -116,37 +125,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     orderButtons.forEach(button => button.addEventListener('click', openOrderModal));
-    if (orderCloseButton && orderModal) { orderCloseButton.addEventListener('click', () => { orderModal.style.display = 'none'; }); } // Adicionado if(orderModal)
+    if (orderCloseButton && orderModal) { orderCloseButton.addEventListener('click', () => { orderModal.style.display = 'none'; }); }
     
     // --- EVENTOS PARA OS BOTÕES +/- ---
-    extraListItems.forEach(item => {
+    extraListItems.forEach(item => { 
         const decreaseBtn = item.querySelector('.decrease-qty'); 
         const increaseBtn = item.querySelector('.increase-qty'); 
         const quantityInput = item.querySelector('.quantity-input-new'); 
 
-        if(decreaseBtn && quantityInput) {
-             decreaseBtn.addEventListener('click', () => {
-                let currentValue = parseInt(quantityInput.value);
-                if (currentValue > 0) { quantityInput.value = currentValue - 1; updateOrderDetails(); }
-            });
+        if(decreaseBtn && quantityInput) { 
+            decreaseBtn.addEventListener('click', () => { 
+                let v = parseInt(quantityInput.value); 
+                if (v > 0) { quantityInput.value = v - 1; updateOrderDetails(); } 
+            }); 
         }
-        if(increaseBtn && quantityInput) {
-            increaseBtn.addEventListener('click', () => {
-                 let currentValue = parseInt(quantityInput.value);
-                 const max = parseInt(quantityInput.max) || 10; 
-                 if (currentValue < max) { quantityInput.value = currentValue + 1; updateOrderDetails(); }
-            });
+        if(increaseBtn && quantityInput) { 
+            increaseBtn.addEventListener('click', () => { 
+                let v = parseInt(quantityInput.value); 
+                let m = parseInt(quantityInput.max) || 10; 
+                if (v < m) { quantityInput.value = v + 1; updateOrderDetails(); } 
+            }); 
         }
     });
     
-    // Atualiza o link se o endereço for alterado
+    // Atualiza o link se NOME ou endereço for alterado
+    if (addressName) addressName.addEventListener('input', updateOrderDetails); // << INCLUÍDO
     if (addressStreet) addressStreet.addEventListener('input', updateOrderDetails); 
     if (addressNumber) addressNumber.addEventListener('input', updateOrderDetails);
     if (addressNeighborhood) addressNeighborhood.addEventListener('input', updateOrderDetails);
     if (addressCep) addressCep.addEventListener('input', updateOrderDetails);
     if (addressCity) addressCity.addEventListener('input', updateOrderDetails);
     if (addressReference) addressReference.addEventListener('input', updateOrderDetails);
-
 
     // --- LÓGICA DO MODAL DE PAGAMENTO PIX ---
     const paymentModal = document.getElementById('payment-modal');
@@ -155,50 +164,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const copyPixButton = document.getElementById('copy-pix-button');
     const pixKeyInput = document.getElementById('pix-key-input');
 
-    if (paymentModalClose && paymentModal) { // Adicionado if(paymentModal)
-        paymentModalClose.addEventListener('click', () => { paymentModal.style.display = 'none'; });
-    }
+    if (paymentModalClose && paymentModal) { paymentModalClose.addEventListener('click', () => { paymentModal.style.display = 'none'; }); }
 
-    // =========================================================
-    // ========= CORREÇÃO NO EVENTO DO BOTÃO WHATSAPP =========
-    // =========================================================
-    if (modalWhatsAppLink && orderModal && paymentModal && paymentSubtotalElement) { // Garante que todos os elementos existem
+    // Evento do botão "Pedir no WhatsApp" (VALIDA NOME E ENDEREÇO)
+    if (modalWhatsAppLink && orderModal && paymentModal && paymentSubtotalElement) { 
         modalWhatsAppLink.addEventListener('click', function(event) {
             
-            // Verifica se os campos obrigatórios do endereço foram preenchidos
+            // Verifica se os campos obrigatórios foram preenchidos
+            const name = addressName ? addressName.value.trim() : ''; // << INCLUÍDO
             const street = addressStreet ? addressStreet.value.trim() : '';
             const number = addressNumber ? addressNumber.value.trim() : '';
             const neighborhood = addressNeighborhood ? addressNeighborhood.value.trim() : '';
             const city = addressCity ? addressCity.value.trim() : '';
 
-            if (!street || !number || !neighborhood || !city) {
-                event.preventDefault(); // Impede o envio se faltar endereço
-                alert('Por favor, preencha todos os campos obrigatórios do endereço (Rua, Número, Bairro, Cidade) antes de enviar o pedido.');
-                return; // Para a execução
+            // Adiciona NOME à validação
+            if (!name || !street || !number || !neighborhood || !city) { 
+                event.preventDefault(); 
+                alert('Por favor, preencha todos os campos obrigatórios (Nome, Rua, Número, Bairro, Cidade) antes de enviar o pedido.');
+                return; 
             }
 
-            // Se o endereço está ok:
-            event.preventDefault(); // Impede o link de abrir imediatamente
-
-            // 1. Atualiza o subtotal no modal de pagamento
-            paymentSubtotalElement.textContent = formatCurrency(currentSubtotal);
-            
-            // 2. Esconde o modal de pedido
-            orderModal.style.display = 'none';
-            
-            // 3. MOSTRA O MODAL DE PAGAMENTO PIX
-            paymentModal.style.display = 'flex'; // << GARANTE QUE ESTA LINHA ESTÁ CORRETA
-            
-            // 4. Abre o WhatsApp em uma nova aba (APÓS mostrar o modal PIX)
+            // Se tudo ok, continua o fluxo:
+            event.preventDefault(); 
+            if(paymentSubtotalElement) paymentSubtotalElement.textContent = formatCurrency(currentSubtotal);
+            if(orderModal) orderModal.style.display = 'none';
+            if(paymentModal) paymentModal.style.display = 'flex';
             window.open(this.href, '_blank');
         });
-    } else {
-        console.error("Erro: Um ou mais elementos do modal de pedido/pagamento não foram encontrados. Verifique os IDs no HTML.");
-    }
+    } else { console.error("Erro: Elementos do modal não encontrados."); }
 
     // Lógica para o botão "Copiar Chave"
-    if (copyPixButton && pixKeyInput) {
-        copyPixButton.addEventListener('click', () => {
+    if (copyPixButton && pixKeyInput) { 
+        copyPixButton.addEventListener('click', () => { 
              pixKeyInput.select(); pixKeyInput.setSelectionRange(0, 99999); 
             try {
                 navigator.clipboard.writeText(pixKeyInput.value).then(() => {

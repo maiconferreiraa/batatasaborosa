@@ -35,7 +35,7 @@ body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1200x400.png?text=Nossas+Batatas');
     background-size: cover;
     background-position: center;
-    position: relative; 
+    position: relative;
 }
 .header h1 {
     font-size: 3rem;
@@ -170,8 +170,8 @@ body {
     position: fixed;
     bottom: 25px;
     right: 25px;
-    width: auto; 
-    padding: 12px 20px; 
+    width: auto;
+    padding: 12px 20px;
     height: auto;
     background-color: var(--primary-color);
     color: white;
@@ -196,7 +196,7 @@ body {
 }
 
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
     z-index: 1001;
     left: 0;
@@ -205,7 +205,7 @@ body {
     height: 100%;
     overflow: auto; /* Permite rolar o modal se for MUITO alto */
     background-color: rgba(0, 0, 0, 0.8);
-    align-items: center; 
+    align-items: center;
     justify-content: center;
     padding: 20px 0; /* Espaço para não colar no topo/fundo */
 }
@@ -223,7 +223,7 @@ body {
 
 /* Modal de Promoção (Swiper) */
 .swiper-slide { background-color: #fefefe; }
-.modal-image, 
+.modal-image,
 #promo-modal .modal-text { background-color: #fefefe; } /* Aplicar fundo aqui também */
 .modal-image {
     width: 100%;
@@ -272,12 +272,12 @@ body {
 .swiper-pagination-bullet-active { background-color: var(--primary-color) !important; }
 
 /* --- ESTILOS DO MODAL DE PEDIDO --- */
-#order-modal .modal-text { 
-    padding: 15px 20px 20px 20px; 
-} 
+#order-modal .modal-text {
+    padding: 15px 20px 20px 20px;
+}
 .order-item-selected {
-    padding: 10px; 
-    margin-bottom: 15px; 
+    padding: 10px;
+    margin-bottom: 15px;
     background: #f9f9f9;
     border-radius: 8px;
     border-left: 5px solid var(--primary-color);
@@ -285,173 +285,178 @@ body {
 .order-item-selected h3 { font-size: 1.2rem; margin: 0; color: var(--secondary-color);}
 .order-item-selected p { font-size: 1.1rem; margin: 5px 0 0 0;}
 
-.extras-list-wrapper { margin-bottom: 15px; } 
+.extras-list-wrapper { margin-bottom: 15px; }
 .extras-list-wrapper h4 {
-    font-size: 1.1rem; 
-    margin-bottom: 8px; 
-    color: var(--secondary-color); 
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--secondary-color);
 }
 .extras-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 180px; 
+    max-height: 180px;
     overflow-y: auto;
 }
 /* Estilo original para li (mantido para espaçamento) */
-.extras-list li { 
-    margin-bottom: 5px; 
+.extras-list li {
+    margin-bottom: 5px;
 }
 /* Estilo original para label (estiliza a linha do acréscimo) */
 .extras-list label {
-    padding: 8px 10px; 
-    font-size: 0.9rem; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100%; 
-    background: #fdfdfd; 
-    border: 1px solid #eee; 
-    border-radius: 8px; 
-    transition: background-color 0.2s; 
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    display: flex; /* Necessário para alinhar */
+    justify-content: space-between; /* Espaça texto e seletor */
+    align-items: center; /* Alinha verticalmente */
+    width: 100%;
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: background-color 0.2s;
 }
 .extras-list label:hover {
-     background-color: #f7f7f7; 
+     background-color: #f7f7f7; /* Efeito hover */
 }
 /* Estilo original para span (preço unitário) */
-.extras-list span { 
-    font-size: 0.9rem; 
-    font-weight: 600; 
-    color: var(--primary-color); 
-    margin-left: 10px; 
-    white-space: nowrap; 
+.extras-list span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-left: 10px; /* Espaço antes do span */
+    white-space: nowrap; /* Impede que "+ R$ X,XX" quebre linha */
 }
 /* Esconde o checkbox original (ele não é mais usado) */
 .extras-list input[type="checkbox"] { display: none; }
 
 .address-section {
-    margin-top: 15px; 
-    padding-top: 15px; 
-    border-top: 1px dashed #eee; 
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #eee;
 }
 .address-section h4 {
-    font-size: 1.1rem; 
-    margin-bottom: 10px; 
-    color: var(--secondary-color); 
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
 }
 .address-fields {
-    display: grid; 
-    grid-template-columns: 1fr; 
-    gap: 6px; 
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
 }
 .address-fields input {
     width: 100%;
-    padding: 6px 8px; 
-    font-size: 0.85rem; 
+    padding: 6px 8px;
+    font-size: 0.85rem;
     border: 1px solid #ccc;
-    border-radius: 6px; 
+    border-radius: 6px;
     font-family: var(--font-family);
 }
 @media (min-width: 576px) {
     .address-fields { grid-template-columns: repeat(2, 1fr); }
-    #address-street, #address-neighborhood, #address-city, #address-reference { grid-column: span 2; }
+    #address-name, /* Adicionado para ocupar linha inteira */
+    #address-street, #address-neighborhood, #address-city, #address-reference {
+        grid-column: span 2;
+    }
+     #address-number { grid-column: 1 / 2; } /* Fica ao lado do CEP */
+     #address-cep { grid-column: 2 / 3; }
 }
 
 .modal-total-section {
-    margin-top: 15px; 
-    padding-top: 15px; 
-    border-top: 2px solid #f0f0f0; 
-    flex-direction: column; 
-    gap: 15px; 
-    display: flex; 
-    align-items: center; 
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #f0f0f0;
+    flex-direction: column;
+    gap: 15px;
+    display: flex;
+    align-items: center;
 }
 .total-price-text {
-    font-size: 1.3rem; 
-    width: 100%; 
-    text-align: center; 
-    font-weight: 700; 
-    color: var(--secondary-color); 
+    font-size: 1.3rem;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    color: var(--secondary-color);
 }
 .total-price-text span {
-    color: var(--primary-color); 
+    color: var(--primary-color);
 }
 .modal-total-section .btn-buy {
-    width: 100%; 
-    padding: 10px; 
+    width: 100%;
+    padding: 10px;
 }
 
 /* --- ESTILOS PARA O MODAL DE PAGAMENTO PIX --- */
 #payment-modal .modal-text {
-    padding: 20px 30px 30px 30px; 
-    text-align: center; 
+    padding: 20px 30px 30px 30px;
+    text-align: center;
 }
 .payment-instructions {
-    font-size: 1rem; 
+    font-size: 1rem;
     margin-bottom: 15px;
 }
 .payment-instructions strong {
     font-size: 1.3rem;
     margin: 8px 0;
-    color: var(--primary-color); 
-    display: block; 
+    color: var(--primary-color);
+    display: block;
 }
 .pix-qrcode-image {
-    width: 180px; 
+    width: 180px;
     height: 180px;
-    margin: 10px auto; 
-    display: block; 
-    border: 5px solid white; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    margin: 10px auto;
+    display: block;
+    border: 5px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-.pix-copy-wrapper { 
-    margin-top: 10px; 
-    display: inline-flex; 
-    max-width: 100%; 
+.pix-copy-wrapper {
+    margin-top: 10px;
+    display: inline-flex;
+    max-width: 100%;
 }
 .pix-copy-wrapper input[type="text"] {
     padding: 8px 10px;
     font-size: 0.8rem;
-    flex-grow: 1; 
+    flex-grow: 1;
     border: 1px solid #ddd;
     border-radius: 8px 0 0 8px;
     background-color: #f4f4f4;
     color: #555;
     outline: none;
-    min-width: 150px; 
+    min-width: 150px;
 }
 .btn-buy-secondary {
     padding: 8px 12px;
     font-size: 0.9rem;
-    border: none; 
-    background-color: var(--secondary-color); 
+    border: none;
+    background-color: var(--secondary-color);
     color: white;
-    border-radius: 0 8px 8px 0; 
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.2s;
-    font-family: var(--font-family); 
+    font-family: var(--font-family);
 }
-.btn-buy-secondary i { margin-right: 5px; } 
+.btn-buy-secondary i { margin-right: 5px; }
 .btn-buy-secondary:hover { background-color: #3a221f; }
 .delivery-fee-notice {
     padding: 10px;
     margin: 15px 0;
-    background-color: #fff3cd; 
-    color: #856404; 
+    background-color: #fff3cd;
+    color: #856404;
     border: 1px solid #ffeeba;
     border-radius: 8px;
-    text-align: center; 
+    text-align: center;
 }
-.delivery-fee-notice p { 
-    font-size: 0.9rem; 
-    margin: 5px 0; 
+.delivery-fee-notice p {
+    font-size: 0.9rem;
+    margin: 5px 0;
     font-weight: 500;
 }
 .delivery-fee-notice i { margin-right: 8px; }
-.payment-instructions.final-step { 
-    margin-top: 20px; 
-    font-weight: 600; 
+.payment-instructions.final-step {
+    margin-top: 20px;
+    font-weight: 600;
 }
 
 /* --- AJUSTES FINAIS PARA CELULARES --- */
@@ -470,11 +475,16 @@ body {
     .modal-content { width: 95%; }
     .modal-promo-title { font-size: 1.5rem; }
 
-    .address-fields { grid-template-columns: 1fr; } 
-    .address-fields input { font-size: 0.9rem; } 
+    /* Garante uma coluna para endereço no mobile e Nome ocupa linha inteira */
+    .address-fields { grid-template-columns: 1fr !important; }
+    #address-name,
+    #address-street, #address-number, #address-neighborhood, #address-cep, #address-city, #address-reference {
+        grid-column: 1 / -1 !important;
+    }
+    .address-fields input { font-size: 0.9rem; }
 
-    .pix-copy-wrapper { display: flex; width: 100%; } 
-    
+    .pix-copy-wrapper { display: flex; width: 100%; }
+
     /* Ajustes para o modal PIX no celular */
      #payment-modal .modal-text { padding: 15px 20px 20px 20px; }
      .payment-instructions { font-size: 0.9rem; margin-bottom: 10px;}
@@ -490,7 +500,7 @@ body {
     0% { transform: scale(1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
     50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6); }
     100% { transform: scale(1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-} 
+}
 
 /* ==================================================================== */
 /* === BLOCO ADICIONADO PARA SELETOR DE QUANTIDADE (v3 - Minimalista) === */
@@ -505,34 +515,34 @@ body {
 }
 /* Botões de Mais e Menos (usando novas classes) */
 .quantity-btn-new {
-    width: 26px; 
+    width: 26px;
     height: 26px;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 50%; 
-    font-size: 1.1rem; 
-    line-height: 24px; 
+    border-radius: 50%;
+    font-size: 1.1rem;
+    line-height: 24px;
     text-align: center;
     cursor: pointer;
     transition: background-color 0.2s;
-    padding: 0; 
-    flex-shrink: 0; 
+    padding: 0;
+    flex-shrink: 0;
 }
 .quantity-btn-new:hover { background-color: #e63e00; }
 /* Input numérico (usando nova classe) */
 .quantity-input-new {
-    width: 35px; 
+    width: 35px;
     height: 26px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin: 0 5px; 
-    font-size: 0.9rem; 
+    margin: 0 5px;
+    font-size: 0.9rem;
     font-weight: 600;
-    -moz-appearance: textfield; 
+    -moz-appearance: textfield;
     appearance: textfield;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 .quantity-input-new::-webkit-outer-spin-button,
 .quantity-input-new::-webkit-inner-spin-button {
